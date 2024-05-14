@@ -39,6 +39,7 @@ div {
   background-position: center;
 }
 
+
 .logo {
   display: block;
   margin: 0 auto 2rem;
