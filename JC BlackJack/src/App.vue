@@ -33,6 +33,11 @@ header {
   line-height: 1.5;
   max-height: 100vh;
 }
+div {
+  background-image: url('/');
+  background-size: cover;
+  background-position: center;
+}
 
 .logo {
   display: block;

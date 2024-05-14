@@ -2,7 +2,7 @@
   <main>
     <TheWelcome />
 
-    <div v-if="players.length > 0">
+    <div v-if="players.length > 0" class="top-players">
       <h2>Top Players</h2>
       <ul>
         <li v-for="(player, index) in topPlayers" :key="index">{{ player.name }} - {{ player.coins }} Coins</li>
@@ -36,7 +36,7 @@ const topPlayers = computed(() => {
     align-items: center;
   }
   .top-players {
-    margin-top: 4rem;
+    margin-bottom:auto;
   }
 
 }
