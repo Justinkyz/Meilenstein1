@@ -1,4 +1,4 @@
 package de.htw.webtech;
 
-public @interface Entity {
+public @interface  Entity {
 }
