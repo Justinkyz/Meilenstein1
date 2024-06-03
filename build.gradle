@@ -26,3 +26,8 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+bootJar {
+	archiveBaseName.set('Webtech')
+	archiveVersion.set('0.0.1-SNAPSHOT')
+}
+
