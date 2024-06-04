@@ -12,6 +12,7 @@ public class HelloController {
     @Autowired
     private StrategyService strategyService;
 
+
     @GetMapping
     public List<Strategy> getAllStrategies() {
         return strategyService.getAllStrategies();
