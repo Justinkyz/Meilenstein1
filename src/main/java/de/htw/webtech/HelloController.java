@@ -13,9 +13,9 @@ public class HelloController {
     private StrategyService strategyService;
 
 
-    @GetMapping
-    public List<Strategy> getAllStrategies() {
-        return strategyService.getAllStrategies();
+    @GetMapping("/leaderboard")
+    public List<Integer> getLeaderboard() {
+        return List.of(1,2,3);
     }
 
     @PostMapping
