@@ -10,20 +10,15 @@ import java.util.List;
 public class HelloController {
 
     @Autowired
-    private StrategyService strategyService;
+    private LeaderboardRepository leaderboardRepository;
 
     @GetMapping("/leaderboard")
     public List<LeaderboardEntry> getLeaderboard() {
-        // Beispielhafte statische Daten
-        return List.of(
-                new LeaderboardEntry("Alice", 1200),
-                new LeaderboardEntry("Bob", 1100),
-                new LeaderboardEntry("Charlie", 1050)
-        );
+        return leaderboardRepository.findAll();
     }
 
-    @PostMapping
-    public Strategy createStrategy(@RequestBody Strategy strategy) {
-        return strategyService.saveStrategy(strategy);
+    @PostMapping("/leaderboard")
+    public LeaderboardEntry createLeaderboardEntry(@RequestBody LeaderboardEntry entry) {
+        return leaderboardRepository.save(entry);
     }
 }
