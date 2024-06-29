@@ -8,7 +8,8 @@ group = 'de.htw.webtech'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '21'
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 }
 
 repositories {
@@ -26,8 +27,8 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
 bootJar {
 	archiveBaseName.set('Webtech')
 	archiveVersion.set('0.0.1-SNAPSHOT')
 }
-
