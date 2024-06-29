@@ -1,7 +1,5 @@
 package de.htw.webtech;
 
-import de.htw.webtech.service.GameService;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

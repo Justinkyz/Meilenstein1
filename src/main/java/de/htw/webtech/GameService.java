@@ -1,6 +1,4 @@
-package de.htw.webtech.service;
-
-import de.htw.webtech.*;
+package de.htw.webtech;
 
 import org.springframework.stereotype.Service;
 
@@ -28,24 +26,22 @@ public class GameService {
         dealer.getHand().addCard(deck.drawCard());
     }
 
-    public Player getPlayer() {
-        return player;
+    public void playerHit() {
+        player.getHand().addCard(deck.drawCard());
     }
 
-    public Player getDealer() {
-        return dealer;
-    }
-
-    public Card hit() {
-        Card card = deck.drawCard();
-        player.getHand().addCard(card);
-        return card;
-    }
-
-    public void stand() {
+    public void dealerTurn() {
         while (dealer.getHand().getValue() < 17) {
             dealer.getHand().addCard(deck.drawCard());
         }
+    }
+
+    public void playerLoses() {
+        player.loseBet(10);
+    }
+
+    public void playerWins() {
+        player.winBet(10);
     }
 
     public String getResult() {
@@ -60,5 +56,25 @@ public class GameService {
         } else {
             return "It's a tie.";
         }
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Player getDealer() {
+        return dealer;
+    }
+
+    // Add the hit method
+    public Card hit() {
+        Card newCard = deck.drawCard();
+        player.getHand().addCard(newCard);
+        return newCard;
+    }
+
+    // Add the stand method
+    public void stand() {
+        dealerTurn();
     }
 }

@@ -3,81 +3,52 @@ package de.htw.webtech;
 import java.util.Scanner;
 
 public class Game {
-    private Deck deck;
-    private Player player;
-    private Player dealer;
+    private GameService gameService;
+    private InputHandler inputHandler;
 
     public Game() {
-        deck = new Deck();
-        player = new Player("Player", 1000);
-        dealer = new Player("Dealer", Integer.MAX_VALUE);
+        gameService = new GameService();
+        inputHandler = new InputHandler();
     }
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to Blackjack!");
 
-        while (player.getBalance() > 0) {
-            player.getHand().clear();
-            dealer.getHand().clear();
-            deck = new Deck(); // Reset the deck
-
-            // Deal initial cards
-            player.getHand().addCard(deck.drawCard());
-            player.getHand().addCard(deck.drawCard());
-            dealer.getHand().addCard(deck.drawCard());
-            dealer.getHand().addCard(deck.drawCard());
+        while (gameService.getPlayer().getBalance() > 0) {
+            gameService.startGame();
 
             // Player's turn
-            System.out.println("Your hand: " + player.getHand() + " (" + player.getHand().getValue() + ")");
+            System.out.println("Your hand: " + gameService.getPlayer().getHand() + " (" + gameService.getPlayer().getHand().getValue() + ")");
             while (true) {
-                System.out.print("Hit or stand? (h/s): ");
-                String action = scanner.nextLine();
+                String action = inputHandler.getPlayerAction(scanner);
                 if (action.equals("h")) {
-                    player.getHand().addCard(deck.drawCard());
-                    System.out.println("Your hand: " + player.getHand() + " (" + player.getHand().getValue() + ")");
-                    if (player.getHand().getValue() > 21) {
+                    gameService.playerHit();
+                    System.out.println("Your hand: " + gameService.getPlayer().getHand() + " (" + gameService.getPlayer().getHand().getValue() + ")");
+                    if (gameService.getPlayer().getHand().getValue() > 21) {
                         System.out.println("You bust! Dealer wins.");
-                        player.loseBet(10);
+                        gameService.playerLoses();
                         break;
                     }
                 } else if (action.equals("s")) {
                     break;
-                } else {
-                    System.out.println("Invalid action. Please enter 'h' or 's'.");
                 }
             }
 
             // Dealer's turn
-            if (player.getHand().getValue() <= 21) {
-                System.out.println("Dealer's hand: " + dealer.getHand() + " (" + dealer.getHand().getValue() + ")");
-                while (dealer.getHand().getValue() < 17) {
-                    dealer.getHand().addCard(deck.drawCard());
-                    System.out.println("Dealer's hand: " + dealer.getHand() + " (" + dealer.getHand().getValue() + ")");
-                }
-                if (dealer.getHand().getValue() > 21) {
-                    System.out.println("Dealer busts! You win.");
-                    player.winBet(10);
-                } else if (dealer.getHand().getValue() > player.getHand().getValue()) {
-                    System.out.println("Dealer wins.");
-                    player.loseBet(10);
-                } else if (dealer.getHand().getValue() < player.getHand().getValue()) {
-                    System.out.println("You win.");
-                    player.winBet(10);
-                } else {
-                    System.out.println("It's a tie.");
-                }
+            if (gameService.getPlayer().getHand().getValue() <= 21) {
+                gameService.dealerTurn();
+                System.out.println("Dealer's hand: " + gameService.getDealer().getHand() + " (" + gameService.getDealer().getHand().getValue() + ")");
+                System.out.println(gameService.getResult());
             }
 
-            System.out.println("Your balance: " + player.getBalance());
-            System.out.print("Play again? (y/n): ");
-            String playAgain = scanner.nextLine();
-            if (!playAgain.equals("y")) {
+            System.out.println("Your balance: " + gameService.getPlayer().getBalance());
+            if (!inputHandler.playAgain(scanner)) {
                 break;
             }
         }
 
-        System.out.println("Game over! Your final balance: " + player.getBalance());
+        System.out.println("Game over! Your final balance: " + gameService.getPlayer().getBalance());
         scanner.close();
     }
 
