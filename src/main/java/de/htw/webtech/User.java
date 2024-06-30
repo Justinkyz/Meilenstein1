@@ -5,7 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-@Entity
+@Entity(name = "app_user") // Ändere den Tabellennamen
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,13 +13,6 @@ public class User {
 
     private String username;
     private String password;
-
-    public User() {}
-
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
 
     public Long getId() {
         return id;
