@@ -7,7 +7,6 @@ public class GameState {
     private List<Card> dealerHand;
     private int playerBalance;
     private int dealerBalance;
-    private String status;
     private String result;
 
     // Getter und Setter
@@ -41,14 +40,6 @@ public class GameState {
 
     public void setDealerBalance(int dealerBalance) {
         this.dealerBalance = dealerBalance;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getResult() {

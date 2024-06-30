@@ -14,17 +14,10 @@ public class Deck {
                 cards.add(new Card(suit, rank));
             }
         }
-        shuffle();
-    }
-
-    public void shuffle() {
         Collections.shuffle(cards);
     }
 
     public Card drawCard() {
-        if (cards.isEmpty()) {
-            throw new IllegalStateException("The deck is empty!");
-        }
-        return cards.remove(cards.size() - 1);
+        return cards.remove(0);
     }
 }
