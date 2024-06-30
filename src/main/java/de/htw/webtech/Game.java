@@ -37,7 +37,7 @@ public class Game {
 
             // Dealer's turn
             if (gameService.getPlayer().getHand().getValue() <= 21) {
-                gameService.dealerTurn();
+                gameService.stand();  // this will call dealerTurn() inside it
                 System.out.println("Dealer's hand: " + gameService.getDealer().getHand() + " (" + gameService.getDealer().getHand().getValue() + ")");
                 System.out.println(gameService.getResult());
             }

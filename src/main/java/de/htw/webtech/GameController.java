@@ -1,6 +1,5 @@
 package de.htw.webtech;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,32 +11,22 @@ public class GameController {
     private GameService gameService;
 
     @PostMapping("/start")
-    public void startGame() {
-        gameService.startGame();
-    }
-
-    @GetMapping("/player")
-    public Player getPlayer() {
-        return gameService.getPlayer();
-    }
-
-    @GetMapping("/dealer")
-    public Player getDealer() {
-        return gameService.getDealer();
+    public GameState startGame() {
+        return gameService.startGame();
     }
 
     @PostMapping("/hit")
-    public Card hit() {
+    public GameState hit() {
         return gameService.hit();
     }
 
     @PostMapping("/stand")
-    public void stand() {
-        gameService.stand();
+    public GameState stand() {
+        return gameService.stand();
     }
 
-    @GetMapping("/result")
-    public String getResult() {
-        return gameService.getResult();
+    @GetMapping("/status")
+    public GameState getStatus() {
+        return gameService.getGameState();
     }
 }

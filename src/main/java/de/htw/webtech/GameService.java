@@ -1,20 +1,24 @@
 package de.htw.webtech;
 
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class GameService {
     private Deck deck;
     private Player player;
     private Player dealer;
+    private String status;
 
     public GameService() {
         deck = new Deck();
         player = new Player("Player", 1000);
         dealer = new Player("Dealer", Integer.MAX_VALUE);
+        status = "NEW";
     }
 
-    public void startGame() {
+    public GameState startGame() {
         player.getHand().clear();
         dealer.getHand().clear();
         deck = new Deck(); // Reset the deck
@@ -24,24 +28,30 @@ public class GameService {
         player.getHand().addCard(deck.drawCard());
         dealer.getHand().addCard(deck.drawCard());
         dealer.getHand().addCard(deck.drawCard());
+
+        status = "IN_PROGRESS";
+
+        return getGameState();
     }
 
-    public void playerHit() {
+    public GameState hit() {
         player.getHand().addCard(deck.drawCard());
+        if (player.getHand().getValue() > 21) {
+            status = "PLAYER_BUST";
+        }
+        return getGameState();
     }
 
-    public void dealerTurn() {
+    public GameState stand() {
+        dealerTurn();
+        status = getResult();
+        return getGameState();
+    }
+
+    private void dealerTurn() {
         while (dealer.getHand().getValue() < 17) {
             dealer.getHand().addCard(deck.drawCard());
         }
-    }
-
-    public void playerLoses() {
-        player.loseBet(10);
-    }
-
-    public void playerWins() {
-        player.winBet(10);
     }
 
     public String getResult() {
@@ -58,6 +68,17 @@ public class GameService {
         }
     }
 
+    public GameState getGameState() {
+        GameState gameState = new GameState();
+        gameState.setPlayerHand(player.getHand().getCards());
+        gameState.setDealerHand(dealer.getHand().getCards());
+        gameState.setPlayerBalance(player.getBalance());
+        gameState.setDealerBalance(dealer.getBalance());
+        gameState.setStatus(status);
+        gameState.setResult(getResult());
+        return gameState;
+    }
+
     public Player getPlayer() {
         return player;
     }
@@ -66,15 +87,12 @@ public class GameService {
         return dealer;
     }
 
-    // Add the hit method
-    public Card hit() {
-        Card newCard = deck.drawCard();
-        player.getHand().addCard(newCard);
-        return newCard;
+    // Methods that are used in Game.java
+    public void playerHit() {
+        player.getHand().addCard(deck.drawCard());
     }
 
-    // Add the stand method
-    public void stand() {
-        dealerTurn();
+    public void playerLoses() {
+        player.loseBet(10);
     }
 }
