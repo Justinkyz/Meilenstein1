@@ -7,6 +7,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/comments")
+@CrossOrigin(origins = {"https://blackjack-tent.onrender.com"})
 public class CommentController {
 
     @Autowired
