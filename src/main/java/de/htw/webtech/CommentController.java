@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/comments")
 @CrossOrigin(origins = {"https://blackjack-tent.onrender.com"})
+@RequestMapping("/api")
 public class CommentController {
 
     @Autowired
     private CommentRepository commentRepository;
 
-    @GetMapping
+    @GetMapping("/comments")
     public List<Comment> getComments() {
         return commentRepository.findAll();
     }
 
-    @PostMapping
+    @PostMapping("/comments")
     public Comment addComment(@RequestBody Comment comment) {
         return commentRepository.save(comment);
     }
